@@ -7,6 +7,7 @@
 3. Put the addons folder into you godot projects root
 
 ## Todo:
+- [ ] Chat dock
 - [ ] Automatic code completion
 - [ ] Add buttons to context menu
 - [ ] Give the AI your current selection
