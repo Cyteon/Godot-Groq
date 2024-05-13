@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://cusvx7gdty4wt"]
+
+[ext_resource type="Script" path="res://addons/groq/UI/GroqDock.gd" id="1_fui4f"]
+
+[node name="Chat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fui4f")
+
+[node name="ChatLogContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="ChatLogVbox" type="VBoxContainer" parent="ChatLogContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MessagingBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MessageEdit" type="TextEdit" parent="MessagingBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+wrap_mode = 1
+
+[node name="SubmitMessage" type="Button" parent="MessagingBox"]
+layout_mode = 2
+text = "Submit"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="MessagingBox/SubmitMessage" to="." method="_on_submit_message_pressed"]
