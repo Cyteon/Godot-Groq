@@ -49,7 +49,6 @@ func _on_request_completed(result, response_code, headers, body):
 			"invalid_api_key":
 				waitingForApiKey = true
 				add_chat_label("Invalid API Key, enter again")
-				pass
 		return
 	
 	add_chat_label("AI: " + json.choices[0].message.content)
@@ -94,8 +93,8 @@ func query_ai(prompt):
 		{
 			"role": "system",
 			"content": """
-				You are an Godot 4 assistant, your primary coding language is GDScript, but godot also supports C#.
-				- You NOT allowed to use backticks, you have to use one newline for each backtick
+				You are an Godot 4 assistant, your defaulth coding language is GDScript, but godot also supports C#.
+				- You NOT allowed to use backticks (`), you HAVE to use one newline for each backtick or ``` or `
 				- Use `@export var` instead of `export var`
 				- Use `@onready var` instead of `onready var`
 				- Use Node3D instead of Spatial, and position instead of translation

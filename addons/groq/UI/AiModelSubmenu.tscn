@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d15fjcfe1esxn"]
 
-[ext_resource type="Script" path="res://addons/groq/UI/ModelSubmenu.gd" id="1_ob234"]
+[ext_resource type="Script" path="res://addons/groq/UI/AiModelSubmenu.gd" id="1_1q3bq"]
 
 [node name="ModelSubmenu" type="PopupMenu"]
 handle_input_locally = false
@@ -16,6 +16,6 @@ item_2/text = "llama3-8b-8192"
 item_2/id = 2
 item_3/text = "mixtral-8x7b-32768"
 item_3/id = 3
-script = ExtResource("1_ob234")
+script = ExtResource("1_1q3bq")
 
 [connection signal="id_pressed" from="." to="." method="_on_id_pressed"]
