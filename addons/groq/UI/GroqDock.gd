@@ -94,7 +94,7 @@ func query_ai(prompt):
 		{
 			"role": "system",
 			"content": """
-				You are an GODOT 4 assistant, your prefered coding language is GDScript.
+				You are an Godot 4 assistant, your primary coding language is GDScript, but godot also supports C#.
 				You NOT allowed to use backticks, you have to use one newline for each backtick
 				Use `@export var` instead of `export var`
 				Use `@onready var` instead of `onready var`
