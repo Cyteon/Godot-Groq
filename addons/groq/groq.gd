@@ -6,7 +6,7 @@ var submenu
 
 func _enter_tree():
 	dock = preload("res://addons/groq/UI/GroqDock.tscn").instantiate()
-	submenu = preload("res://addons/groq/UI/ModelSubmenu.tscn").instantiate()
+	submenu = preload("res://addons/groq/UI/AiModelSubmenu.tscn").instantiate()
 	
 	add_control_to_dock(DOCK_SLOT_LEFT_UR, dock)
 	

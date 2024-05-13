@@ -11,3 +11,4 @@
 - [ ] Automatic code completion
 - [ ] Add buttons to context menu
 - [ ] Give the AI your current selection
+- [ ] Better backtick formatting
