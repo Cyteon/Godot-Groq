@@ -15,12 +15,6 @@ func _process(delta):
 	pass
 
 
-func _on_mixtral_8x_7b_32768_pressed():
-	config.set_value("ai", "model", "mixtral-8x7b-32768")
-	config.save("res://addons/groq/plugin.cfg")
-	print("Set AI Model to mixtral-8x7b-32768")
-
-
 func _on_id_pressed(id):
 	match id:
 		0:
