@@ -12,7 +12,6 @@ func _enter_tree():
 	
 	add_tool_submenu_item("Set AI Model", submenu)
 
-
 func _exit_tree():
 	remove_control_from_docks(dock)
 	remove_tool_menu_item("Set AI Model")

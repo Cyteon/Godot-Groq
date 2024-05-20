@@ -1,5 +1,6 @@
 @tool
 extends Control
+class_name GroqDock
 
 @onready var MessageEdit = $MessagingBox/MessageEdit
 @onready var HTTP = $HTTPRequest
@@ -12,10 +13,29 @@ var messageLog = []
 
 var waitingForApiKey = false
 
+var hasAddedToContext = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	HTTP.request_completed.connect(_on_request_completed)
 	
+	EditorInterface.get_script_editor().get_current_editor().get_child(1).id_pressed.connect(_script_context_menu_pressed)
+	
+func _script_context_menu_pressed(id):
+	match id:
+		1001:
+			query_ai(
+				"Explain this code: ", 
+				EditorInterface.get_script_editor().get_current_editor().get_base_editor().get_selected_text() + 
+				"```"
+				)
+		1002:
+			query_ai(
+				"Fix this code: ", 
+				EditorInterface.get_script_editor().get_current_editor().get_base_editor().get_selected_text() + 
+				"```"
+				)
+
 func get_home_directory():
 	var home = null
 	for env in ["USERPROFILE", "HOME"]:
@@ -25,9 +45,17 @@ func get_home_directory():
 				home = home.replace('\\', '/')
 			return home
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not hasAddedToContext:
+		hasAddedToContext = true
+				
+		EditorInterface.get_script_editor().get_current_editor().get_child(1).add_separator()
+		EditorInterface.get_script_editor().get_current_editor().get_child(1).add_item("AI: Explain", 1001)
+		EditorInterface.get_script_editor().get_current_editor().get_child(1).add_item("AI: Fix Code", 1002)
+	elif not EditorInterface.get_script_editor().get_current_editor().get_child(1).visible:
+		hasAddedToContext = false
 	
 func add_chat_label(text, tooltip = ""):
 	var l = RichTextLabel.new()
@@ -64,7 +92,17 @@ func _on_request_completed(result, response_code, headers, body):
 		}
 	)
 
-func query_ai(prompt):
+func query_ai(prompt, selection = "NONE"):
+	
+	var selectionMsg = ""
+
+	if EditorInterface.get_script_editor().get_current_editor().get_base_editor().get_selected_text() == "" or null:
+		pass
+	else:
+		selection = EditorInterface.get_script_editor().get_current_editor().get_base_editor().get_selected_text()
+		
+		selectionMsg = "\n Selection: ```\n" + selection + "```"
+	
 	var config = ConfigFile.new()
 	var err = config.load("res://addons/groq/plugin.cfg")
 	model = config.get_value("ai", "model")
@@ -72,7 +110,7 @@ func query_ai(prompt):
 	config = ConfigFile.new()
 	err = config.load(get_home_directory() + "/.godot-groq.cfg")
 	
-	add_chat_label("You: " + prompt)
+	add_chat_label("You: " + prompt + (" {selection}" if selection != "NONE" else ""))
 	
 	if waitingForApiKey:
 		config.set_value("ai", "api_key", prompt)
@@ -179,19 +217,19 @@ func query_ai(prompt):
 					VisualShaderNodeTransformUniform (old) : VisualShaderNodeTransformParameter (new)
 					VisualShaderNodeVec3Uniform (old) : VisualShaderNodeVec3Parameter (new)
 					VisualShaderNodeUniform (old) : VisualShaderNodeParameter (new)
-					VisualShaderNodeUniformRef (old) : VisualShaderNodeParameterRef (new)
+					VisualShaderNodeUniformRef (old) : VisualShaderNodeParameterRef (new)	
 			"""
 		},
 		{
 			"role": "user", 
-			"content": prompt
+			"content": prompt + selectionMsg
 		}
 	])
 	
 	messageLog.append(
 		{
 			"role": "user", 
-			"content": prompt
+			"content": prompt + selectionMsg
 		}
 	)
 	

@@ -13,6 +13,6 @@
 ## Todo:
 - [X] Chat dock
 - [ ] Automatic code completion
-- [ ] Add buttons to context menu
-- [ ] Give the AI your current selection
+- [X] Add buttons to context menu
+- [X] Give the AI your current selection
 - [ ] Better backtick formatting
